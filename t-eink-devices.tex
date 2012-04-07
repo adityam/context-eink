@@ -1,0 +1,54 @@
+%D \module
+%D   [     file=t-eink-devices,
+%D      version=2012.04.07,
+%D        title=\CONTEXT\ User Module,
+%D     subtitle=eInk Device Data,
+%D       author=Aditya Mahajan,
+%D         date=\currentdate,
+%D    copyright=Aditya Mahajan,
+%D        email=adityam <at> ieee <dot> org,
+%D      license=Simplified BSD License]
+
+\writestatus{loading}{Visual Counter (ver: 2012.04.07)}
+
+\startmodule eink-devices
+
+\unprotect
+
+\definenamespace
+  [einkdevice]
+  [   \c!type=module,
+      \c!name=einkdevice,
+   \c!command=\v!yes,
+        setup=\v!list,
+    \s!parent=einkdevice,
+  ]
+
+% Default size
+\setupeinkdevice
+  [
+    \c!height=8in,
+    \c!width=6.25in,
+    \c!size=10pt,
+  ]
+
+% iRex devices: DR1000, DR800, iLiad
+\defineeinkdevice
+  [DR1000]
+  [
+    \c!height=8in,
+    \c!width=6.25in,
+    \c!size=12pt,
+  ]
+
+% Amazon Kindle devices: kindle, kindleDX, kindle-fire
+\defineeinkdevice
+  [kindle]
+  [
+    \c!height=8in,
+    \c!width=6.25in,
+    \c!size=10pt,
+  ]
+
+\protect
+\stopmodule
