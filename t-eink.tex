@@ -18,6 +18,10 @@
 \setupmodule
   [
     \c!alternative=kindle,
+    mainfont={Tex Gyre Schola},
+    sansfont={Tex Gyre Heros},
+    monofont={Latin Modern Mono},
+    mathfont={Xits},
   ]
 
 \usemodule[t][eink-devices]
@@ -55,25 +59,26 @@
 
 \setupwhitespace[\v!medium]
 \setupindenting[\v!medium,\v!yes]
+\setuptolerance[\v!tolerant, \v!stretch]
 
 \setupsymbolset[text] 
 \setupitemize[\v!autointro]
+\setupitemize[\c!margin=2em]
 
 \setupinteraction[\c!state=\v!start]
 \placebookmarks[\v!chapter]
 
 \usemodule  [simplefonts][\c!size=\p_eink_fontsize]
 
-\setmainfont[Fontin][expansion=quality,protrusion=quality]
-\setmathfont[Cambria]
-
-\definefont [interludefont]   [name:museo700 sa 2]
-\definefont [chapterfont]     [name:museo700 sa 2.5]
+\setmainfont[\currentmoduleparameter{mainfont}][expansion=quality,protrusion=quality]
+\setsansfont[\currentmoduleparameter{sansfont}][expansion=quality,protrusion=quality]
+\setmonofont[\currentmoduleparameter{monofont}]
+\setmathfont[\currentmoduleparameter{mathfont}]
 
 \setuphead[chapter]
           [
             \c!alternative=\v!middle,
-            \c!style=\chapterfont,
+            \c!style=\ssbfd,
             \c!number=\v!no,
             \c!before={\blank[2*\v!big,\v!force]},
             \c!after={\blank[4*\v!big]\placeinitial},
@@ -81,7 +86,6 @@
 
 % Interlude for typesetting titlepage, etc.
 \usemodule[annotation]
-\def\Interlude{\dowithpargument\doInterlude}
 
 \startsetups interlude::before
   \null \vfill \vfill
@@ -100,7 +104,7 @@
     \c!alternative=\v!paragraph,
     \c!color=,
     \c!align=\v!middle,
-    \c!style={\interludefont\setupinterlinespace[\v!big]},
+    \c!style={\ssbfc\setupinterlinespace[\v!big]},
  ]
 
 \protect
