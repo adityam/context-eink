@@ -1,0 +1,107 @@
+%D \module
+%D   [     file=t-eink,
+%D      version=2012.04.07,
+%D        title=\CONTEXT\ User Module,
+%D     subtitle=eInk Style File,
+%D       author=Aditya Mahajan,
+%D         date=\currentdate,
+%D    copyright=Aditya Mahajan,
+%D        email=adityam <at> ieee <dot> org,
+%D      license=Simplified BSD License]
+
+\writestatus{loading}{eInk style (ver: 2012.04.07)}
+
+\startmodule eink
+
+\unprotect
+
+\setupmodule
+  [
+    \c!alternative=kindle,
+  ]
+
+\usemodule[t][eink-devices]
+
+\edef\currenteinkdevice{\currentmoduleparameter\c!alternative}
+\edef\p_eink_fontsize{\einkdeviceparameter\c!size}
+
+\definepapersize
+  [eink]
+  [
+    \c!height=\einkdeviceparameter\c!height,
+    \c!width=\einkdeviceparameter\c!width,
+  ]
+
+\setuppapersize[eink]
+
+\setuplayout
+  [
+    \c!location=\v!middle,
+    \c!topspace=5mm,
+    \c!width=\v!middle,
+    \c!height=\v!middle,
+    \c!bottomspace=5mm,
+    \c!bottomdistance=\zeropoint,
+    \c!bottom=\zeropoint,
+    \c!backspace=5mm,
+    \c!cutspace=5mm,
+    \c!leftmargin=1mm,
+    \c!rightmargin=1mm,
+    \c!header=\zeropoint,
+    \c!footer=\zeropoint,
+    \c!headerdistance=\zeropoint,
+    \c!footerdistance=\zeropoint,
+ ]
+
+\setupwhitespace[\v!medium]
+\setupindenting[\v!medium,\v!yes]
+
+\setupsymbolset[text] 
+\setupitemize[\v!autointro]
+
+\setupinteraction[\c!state=\v!start]
+\placebookmarks[\v!chapter]
+
+\usemodule  [simplefonts][\c!size=\p_eink_fontsize]
+
+\setmainfont[Fontin][expansion=quality,protrusion=quality]
+\setmathfont[Cambria]
+
+\definefont [interludefont]   [name:museo700 sa 2]
+\definefont [chapterfont]     [name:museo700 sa 2.5]
+
+\setuphead[chapter]
+          [
+            \c!alternative=\v!middle,
+            \c!style=\chapterfont,
+            \c!number=\v!no,
+            \c!before={\blank[2*\v!big,\v!force]},
+            \c!after={\blank[4*\v!big]\placeinitial},
+          ]
+
+% Interlude for typesetting titlepage, etc.
+\usemodule[annotation]
+\def\Interlude{\dowithpargument\doInterlude}
+
+\startsetups interlude::before
+  \null \vfill \vfill
+  \let\\=\crlf
+\stopsetups
+
+\startsetups interlude::after
+  \vfill\vfill\vfill
+\stopsetups
+
+\defineannotation
+  [interlude]
+  [
+    \c!before=\setups{interlude::before},
+    \c!after=\setups{interlude::after},
+    \c!alternative=\v!paragraph,
+    \c!color=,
+    \c!align=\v!middle,
+    \c!style={\interludefont\setupinterlinespace[\v!big]},
+ ]
+
+\protect
+\stopmodule
