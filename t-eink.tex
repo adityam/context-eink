@@ -25,13 +25,17 @@
     \c!size=,
   ]
 
+% Load information about different devices
 \usemodule[t][eink-devices]
 
+% Global parameters
 \edef\currenteinkdevice{\currentmoduleparameter\c!alternative}
 \edef\p_eink_fontsize{\currentmoduleparameter\c!size}
 \doifnothing{\p_eink_fontsize}
     {\edef\p_eink_fontsize{\einkdeviceparameter\c!size}}
 
+% Define and set paper size based on the information stored
+% in `t-eink-devices`.
 \definepapersize
   [eink]
   [
@@ -40,6 +44,9 @@
   ]
 
 \setuppapersize[eink]
+
+% Set a layout with tiny margins and no headers and footers. Real-estate is
+% at a premium on e-ink devices.
 
 \setuplayout
   [
@@ -60,23 +67,48 @@
     \c!footerdistance=\zeropoint,
  ]
 
-\setupwhitespace[\v!medium]
+
+% Indent start of paragraphs
 \setupindenting[\v!medium,\v!yes]
+
+% But do no use extra space between paragraphs
+% TODO: This can be made configurable based on the device
+% size.
+\setupwhitespace[\v!none]
+
+% Unlike print documents with large margins, eink does no
+% have any margins; so a overfull \hbox resulting from a bad
+% word break will not be noticed. To avoid this, we set a high
+% horizontal tolerance. This means that TeX does not work very hard
+% to get good linebreaks. 
+%
 \setuptolerance[\v!tolerant, \v!stretch]
 
-\setupsymbolset[text] 
-\setupitemize[\v!autointro]
-\setupitemize[\c!margin=2em]
+% By default, ConTeXt uses Math fonts for bullets in item lists.
+% Use text font bullets to avoid loading the math font is the
+% document does no use math.
+\setupsymbolset[\v!text] 
 
+% Try to avoid page-breaks just before the start of itemizations.
+\setupitemize[\v!autointro,\v!intro]
+\setupitemize[\c!margin=1em]
+
+% Activate interaction, and instead of generating a 
+% tablue of contents, just generate bookmaks. Most 
+% e-ink readers will happily show bookmarks as table of contents.
 \setupinteraction[\c!state=\v!start]
 \placebookmarks[\v!chapter]
 
+% Set document fonts. We deligate this task to the `simplefonts` module.
 \usemodule  [simplefonts][\c!size=\p_eink_fontsize]
 
 \setmainfont[\currentmoduleparameter{mainfont}][expansion=quality,protrusion=quality]
 \setsansfont[\currentmoduleparameter{sansfont}][expansion=quality,protrusion=quality]
 \setmonofont[\currentmoduleparameter{monofont}]
 \setmathfont[\currentmoduleparameter{mathfont}]
+
+% A easy to read style for chapter headings. By default, disable chapter
+% numbering.
 
 \setuphead[chapter]
           [
@@ -87,11 +119,32 @@
             \c!after={\blank[4*\v!big]\placeinitial},
           ]
 
-% Interlude for typesetting titlepage, etc.
-\usemodule[annotation]
+% Sometimes we need to typeset a title page, or a dedication page, or a part
+% page. We use a generic `interlude` page for all such information, which
+% typesets its content vertically and horizontally centered and using a large
+% font.
+
+\definestartstop
+  [interlude]
+  [
+    before=\start_eink_interlude_makeup,
+    after=\stop_eink_interlude_makeup,
+  ]
+
+
+\definemakeup
+  [_eink_interlude_]
+  [
+    \c!top=\setups{interlude::before},
+    \c!bottom=\setups{interlude::after},
+    \c!color=,
+    \c!align=\v!middle,
+    \c!style={\ssbfc\setupinterlinespace},
+  ]
+    
 
 \startsetups interlude::before
-  \null \vfill \vfill
+  \vfill \vfill
   \let\\=\crlf
 \stopsetups
 
@@ -99,16 +152,13 @@
   \vfill\vfill\vfill
 \stopsetups
 
-\defineannotation
-  [interlude]
+% Make sure that figures do not exceed the dimension of the page
+\setupexternalfigures
   [
-    \c!before=\setups{interlude::before},
-    \c!after=\setups{interlude::after},
-    \c!alternative=\v!paragraph,
-    \c!color=,
-    \c!align=\v!middle,
-    \c!style={\ssbfc\setupinterlinespace[\v!big]},
- ]
+    \c!maxwidth=\textwidth,
+    \c!maxheight=\textheight,
+    \c!factor=\v!max,
+  ]
 
 \protect
 \stopmodule
