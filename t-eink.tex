@@ -98,7 +98,7 @@
 % tablue of contents, just generate bookmaks. Most 
 % e-ink readers will happily show bookmarks as table of contents.
 \setupinteraction[\c!state=\v!start]
-\placebookmarks[\v!chapter]
+\placebookmarks[\v!chapter,\v!title][\c!force=\v!yes]
 
 % Set document fonts. We deligate this task to the `simplefonts` module.
 \usemodule  [simplefonts][\c!size=\p_eink_fontsize]
@@ -108,16 +108,14 @@
 \setmonofont[\currentmoduleparameter{monofont}]
 \setmathfont[\currentmoduleparameter{mathfont}]
 
-% A easy to read style for chapter headings. By default, disable chapter
-% numbering.
+% A easy to read style for chapter headings. 
 %
 % TODO: Add settings for section and lower level headings as well.
 
-\setuphead[\v!chapter]
+\setuphead[\v!chapter,\v!title]
           [
             \c!alternative=\v!middle,
             \c!style=\ssbfd,
-            \c!number=\v!no,
             \c!before={\blank[2*\v!big,\v!force]},
             \c!after={\blank[4*\v!big]\placeinitial},
           ]
@@ -130,8 +128,8 @@
 \definestartstop
   [interlude]
   [
-    before=\start_eink_interlude_makeup,
-    after=\stop_eink_interlude_makeup,
+    \c!before=\start_eink_interlude_makeup,
+    \c!after=\stop_eink_interlude_makeup,
   ]
 
 
