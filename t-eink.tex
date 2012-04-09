@@ -22,12 +22,15 @@
     sansfont={Tex Gyre Heros},
     monofont={Latin Modern Mono},
     mathfont={Xits},
+    \c!size=,
   ]
 
 \usemodule[t][eink-devices]
 
 \edef\currenteinkdevice{\currentmoduleparameter\c!alternative}
-\edef\p_eink_fontsize{\einkdeviceparameter\c!size}
+\edef\p_eink_fontsize{\currentmoduleparameter\c!size}
+\doifnothing{\p_eink_fontsize}
+    {\edef\p_eink_fontsize{\einkdeviceparameter\c!size}}
 
 \definepapersize
   [eink]
