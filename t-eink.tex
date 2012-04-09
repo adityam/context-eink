@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=t-eink,
-%D      version=2012.04.07,
+%D      version=2012.04.09,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=eInk Style File,
 %D       author=Aditya Mahajan,
@@ -8,8 +8,6 @@
 %D    copyright=Aditya Mahajan,
 %D        email=adityam <at> ieee <dot> org,
 %D      license=Simplified BSD License]
-
-\writestatus{loading}{eInk style (ver: 2012.04.07)}
 
 \startmodule eink
 
@@ -30,9 +28,12 @@
 
 % Global parameters
 \edef\currenteinkdevice{\currentmoduleparameter\c!alternative}
+\writestatus{t-eink}{settings > loaded: '\currenteinkdevice'}
+
 \edef\p_eink_fontsize{\currentmoduleparameter\c!size}
-\doifnothing{\p_eink_fontsize}
+\doifelsenothing{\p_eink_fontsize}
     {\edef\p_eink_fontsize{\einkdeviceparameter\c!size}}
+    {\writestatus{t-eink}{settings > override > size: \p_eink_fontsize}}
 
 % Define and set paper size based on the information stored
 % in `t-eink-devices`.
