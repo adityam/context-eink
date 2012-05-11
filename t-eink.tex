@@ -109,8 +109,6 @@
 \setmathfont[\currentmoduleparameter{mathfont}]
 
 % A easy to read style for chapter headings. 
-%
-% TODO: Add settings for section and lower level headings as well.
 
 \setuphead[\v!chapter,\v!title]
           [
@@ -118,6 +116,28 @@
             \c!style=\ssbfd,
             \c!before={\blank[2*\v!big,\v!force]},
             \c!after={\blank[4*\v!big]\placeinitial},
+          ]
+
+\setuphead[\v!section,\v!subject]
+          [
+            \c!style=\ssbfc,
+            \c!before={\blank[\v!big]},
+            \c!after={\blank[\v!big]},
+          ]
+
+\setuphead[\v!subsection,\v!subsubject]
+          [
+            \c!style=\ssbfb,
+            \c!before={\blank[\v!medium]},
+            \c!after={\blank[\v!medium]},
+          ]
+
+\setuphead[\v!subsubsection,\v!subsubsubject]
+          [
+            \c!alternative=\v!text,
+            \c!style=\ssbf,
+            \c!before={\blank},
+            \c!after=,
           ]
 
 % Sometimes we need to typeset a title page, or a dedication page, or a part
