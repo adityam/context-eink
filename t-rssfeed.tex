@@ -22,6 +22,25 @@
             \c!size=10pt,
           ]
 
+% Mostly, the typing environment is for code.
+% Kindle has a small linewidth, so we use a smaller
+% font for typing
+\setuptyping
+  [
+    \c!style={\switchtobodyfont[8pt]},
+    \c!color=white,
+    \c!before={\starttyping_background},
+    \c!after={\stoptyping_background},
+    \c!lines=\v!yes,
+  ]
+
+\definebackground[typing_background]
+                 [
+                   \c!background=\c!color,
+                   \c!backgroundcolor=black,
+                 ]
+
+
 % Each post is a new chapter
 \setuphead[\v!chapter,\v!title]
           [
@@ -102,6 +121,21 @@
     setvalue("rssfeed_format", format)
   end
 \stopluacode
+
+% Feedburner includes a GIF image at the end of feeds. When using pandoc to
+% convert HTML to ConTeXt, that gets translated to \placefigure[...]{...}{...} 
+% and we get a box with "undefined" in it. To fix that, we set:
+
+\setupfloats[\c!width=\zeropoint, \c!height=\zeropoint]
+\startmessages  english  library: floatblocks
+12: 
+\stopmessages
+
+% Using asciimode is safer, but directly setting asciimode from
+% a module does not work. 
+\appendtoks
+  \asciimode
+\to\everystarttext
 
 \protect
 \stopmodule
