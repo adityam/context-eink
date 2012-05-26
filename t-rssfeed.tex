@@ -1,0 +1,89 @@
+%D \module
+%D   [     file=t-rssfeed,
+%D      version=2012.05.25,
+%D        title=\CONTEXT\ User Module,
+%D     subtitle=eInk Style File for RSS Feeds,
+%D       author=Aditya Mahajan,
+%D         date=\currentdate,
+%D    copyright=Aditya Mahajan,
+%D        email=adityam <at> ieee <dot> org,
+%D      license=Simplified BSD License]
+
+\startmodule rssfeed
+
+\unprotect
+
+\usemodule[t][eink]
+          [
+            \c!alternative=kindle,
+            mainfont={Dejavu Serif},
+            sansfont={Dejavu Sans},
+            monofont={Dejavu Sans Mono},
+            \c!size=10pt,
+          ]
+
+% Each post is a new chapter
+\setuphead[\v!chapter,\v!title]
+          [
+            \c!alternative=\v!middle,
+            \c!style=\ssbfb,
+            \c!before={\blank[2*\v!big,\v!force]},
+            \c!after={\blank[4*\v!big]},
+          ]
+
+\setuphead[\v!section,\v!subject]
+          [
+            \c!style=\ssbfa,
+            \c!before={\blank[\v!big]},
+            \c!after={\blank[\v!big]},
+          ]
+
+\setuphead[\v!subsection,\v!subsubject]
+          [
+            \c!style=\ssbf,
+            \c!before={\blank[\v!medium]},
+            \c!after={\blank[\v!medium]},
+          ]
+
+\setuphead[\v!subsubsection,\v!subsubsubject]
+          [
+            \c!alternative=\v!text,
+            \c!style=\ssbf,
+            \c!before={\blank},
+            \c!after=,
+          ]
+
+% Setup for feed titlepage
+\setvariables
+  [rssfeed]
+  [
+    title=,
+    description=,
+    link=,
+    set={\setups{rssfeed:titlepage}},
+  ]
+
+\startsetups rssfeed:titlepage
+  \startinterlude
+      \getvariable{rssfeed}{title}
+      \blank[2*big]
+      \getvariable{rssfeed}{description}
+      \vfill
+      {\getvariable{rssfeed}{link}}
+  \stopinterlude
+\stopsetups
+
+% Arxiv sometimes uses an explicit \emph command:
+\definehighlight[emph][style=\em]
+
+% Bugfix for figures
+\let\normalexternalfigure\externalfigure
+\unexpanded\def\externalfigure
+    {\dodoubleargument\rssfeed_externalfigure}
+
+\def\rssfeed_externalfigure[#1][#2]%
+    {\normalexternalfigure[#1][\c!method=pdf, \c!scale=2000, #2]}
+
+
+\protect
+\stopmodule

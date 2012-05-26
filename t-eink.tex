@@ -94,10 +94,27 @@
 \setupitemize[\v!autointro,\v!intro]
 \setupitemize[\c!margin=1em]
 
+% No indenting for block quotes
+\setupdelimitedtext
+  [\v!blockquote]
+  [
+    \c!indenting=\v!no,
+    \c!before={\startblockquote_background},
+    \c!after={\stopblockquote_background},
+  ]
+
+\definebackground[blockquote_background]
+                 [
+                   \c!background=\c!color,
+                   \c!backgroundcolor=gray,
+                   \c!leftframe=\v!on,
+                   \c!rulethickness=1pt,
+                 ]
+
 % Activate interaction, and instead of generating a 
 % tablue of contents, just generate bookmaks. Most 
 % e-ink readers will happily show bookmarks as table of contents.
-\setupinteraction[\c!state=\v!start]
+\setupinteraction[\c!state=\v!start, \c!style=, \c!color=blue]
 \placebookmarks[\v!chapter,\v!title][\c!force=\v!yes]
 
 % Set document fonts. We deligate this task to the `simplefonts` module.
@@ -176,8 +193,8 @@
 % Make sure that figures do not exceed the dimension of the page
 \setupexternalfigures
   [
-    \c!maxwidth=\textwidth,
-    \c!maxheight=\textheight,
+    \c!maxwidth=0.8\textwidth,
+    \c!maxheight=0.8\textheight,
     \c!factor=\v!max,
   ]
 
