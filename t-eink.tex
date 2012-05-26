@@ -120,10 +120,12 @@
 % Set document fonts. We deligate this task to the `simplefonts` module.
 \usemodule  [simplefonts][\c!size=\p_eink_fontsize]
 
-\setmainfont[\currentmoduleparameter{mainfont}][expansion=quality,protrusion=quality]
-\setsansfont[\currentmoduleparameter{sansfont}][expansion=quality,protrusion=quality]
+\setmainfont[\currentmoduleparameter{mainfont}][\c!expansion=quality,\c!protrusion=quality]
+\setsansfont[\currentmoduleparameter{sansfont}][\c!expansion=quality,\c!protrusion=quality]
 \setmonofont[\currentmoduleparameter{monofont}]
 \setmathfont[\currentmoduleparameter{mathfont}]
+
+\setupalign[\v!hz, \v!hanging]
 
 % A easy to read style for chapter headings. 
 
