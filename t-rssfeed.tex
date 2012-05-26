@@ -86,20 +86,20 @@
     % which completely messes things up. So, we check the format
     % of the image before trying to include it.
     {\ctxlua{thirddata.rssfeed.image_format (\!!bs \locfilename{#1}\!!es)}%
-    \doifnot{\rssfeed_format}{GIF }% Space at the end is important
-        {\normalexternalfigure[#1][\c!scale=2000, \c!method=JPEG, #2]}}
+    \doifnot{\rssfeed_format}{GIF}
+        {\normalexternalfigure[#1][\c!scale=2000, \c!method=\rssfeed_format, #2]}}
 
 \startluacode
   thirddata = thirddata or {}
   thirddata.rssfeed = {}
 
   local rssfeed = thirddata.rssfeed
-  local sformat,osexec = string.format, os.execute
+  local sformat,osexec, ioload, setvalue = string.format, os.execute, io.loaddata, context.setvalue
 
   function rssfeed.image_format(image) 
     osexec(sformat("identify -format \"%%m\" %s > rssfeed_format", image))
-    local format=io.loaddata('rssfeed_format')
-    context.setvalue("rssfeed_format", format)
+    local format=ioload('rssfeed_format'):gsub("\n","")
+    setvalue("rssfeed_format", format)
   end
 \stopluacode
 
