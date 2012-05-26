@@ -55,7 +55,7 @@
     \c!topspace=5mm,
     \c!width=\v!middle,
     \c!height=\v!middle,
-    \c!bottomspace=5mm,
+    \c!bottomspace=10mm,
     \c!bottomdistance=\zeropoint,
     \c!bottom=\zeropoint,
     \c!backspace=5mm,
@@ -98,7 +98,7 @@
 \setupdelimitedtext
   [\v!blockquote]
   [
-    \c!indenting=\v!no,
+    \c!indenting=\v!next,
     \c!before={\startblockquote_background},
     \c!after={\stopblockquote_background},
   ]
@@ -114,7 +114,8 @@
 % Activate interaction, and instead of generating a 
 % tablue of contents, just generate bookmaks. Most 
 % e-ink readers will happily show bookmarks as table of contents.
-\setupinteraction[\c!state=\v!start, \c!style=, \c!color=blue]
+\definecolor[interactioncolor][s=0.25]
+\setupinteraction[\c!state=\v!start, \c!style=bolditalic]
 \placebookmarks[\v!chapter,\v!title][\c!force=\v!yes]
 
 % Set document fonts. We deligate this task to the `simplefonts` module.
