@@ -16,7 +16,7 @@
 \usemodule[t][eink]
           [
             \c!alternative=kindle,
-            mainfont={Dejavu Sans},
+            mainfont={Linux Libertine O},
             sansfont={Dejavu Sans},
             monofont={Dejavu Sans Mono},
             \c!size=10pt,
@@ -48,6 +48,7 @@
             \c!style=\ssbfb,
             \c!before={\blank[2*\v!big,\v!force]},
             \c!after={\blank[4*\v!big]},
+            \c!number=\v!no,
           ]
 
 \setuphead[\v!section,\v!subject]
@@ -55,6 +56,7 @@
             \c!style=\ssbfa,
             \c!before={\blank[\v!big]},
             \c!after={\blank[\v!big]},
+            \c!number=\v!no,
           ]
 
 \setuphead[\v!subsection,\v!subsubject]
@@ -62,6 +64,7 @@
             \c!style=\ssbf,
             \c!before={\blank[\v!medium]},
             \c!after={\blank[\v!medium]},
+            \c!number=\v!no,
           ]
 
 \setuphead[\v!subsubsection,\v!subsubsubject]
@@ -70,6 +73,7 @@
             \c!style=\ssbf,
             \c!before={\blank},
             \c!after=,
+            \c!number=\v!no,
           ]
 
 % Setup for feed titlepage
@@ -106,7 +110,7 @@
     % of the image before trying to include it.
     {\ctxlua{thirddata.rssfeed.image_format (\!!bs \locfilename{#1}\!!es)}%
     \doifnot{\rssfeed_format}{GIF}
-        {\normalexternalfigure[#1][\c!scale=2000, \c!method=\rssfeed_format, #2]}}
+        {\normalexternalfigure[#1][\c!scale=2000, \c!method=auto, #2]}}
 
 \startluacode
   thirddata = thirddata or {}
