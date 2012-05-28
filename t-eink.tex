@@ -52,22 +52,44 @@
 \setuplayout
   [
     \c!location=\v!middle,
-    \c!topspace=5mm,
+    \c!topspace=0.5\lineheight,
     \c!width=\v!middle,
     \c!height=\v!middle,
-    \c!bottomspace=10mm,
+    \c!bottomspace=0.5\lineheight,
     \c!bottomdistance=\zeropoint,
     \c!bottom=\zeropoint,
     \c!backspace=5mm,
     \c!cutspace=5mm,
     \c!leftmargin=1mm,
     \c!rightmargin=1mm,
-    \c!header=\zeropoint,
-    \c!footer=\zeropoint,
-    \c!headerdistance=\zeropoint,
-    \c!footerdistance=\zeropoint,
+    \c!header=\lineheight,
+    \c!footer=\lineheight,
+    \c!headerdistance=0.5\lineheight,
+    \c!footerdistance=0.5\lineheight,
  ]
 
+\setupheader[style={\switchtobodyfont[small]}]
+\setupfooter[style={\switchtobodyfont[small]}]
+
+% Kindle shows the current chapter/title in the header and a
+% link to the next chapter/title in the footer.
+
+\setuppagenumbering[location=]
+
+\setupheadertexts[\setups{current:chapter}][]
+\setupfootertexts[\setups{page:percentage}][\setups{next:chapter}]
+
+\startsetups page:percentage
+  \currentpage/\lastpage
+\stopsetups
+
+\startsetups current:chapter
+  \limitatetext {\getmarking[\v!chapter]}{0.5 \textwidth}{\unknown}
+\stopsetups
+
+\startsetups next:chapter
+  \limitatetext {\getmarking[\v!chapter][last]}{0.5 \textwidth}{\unknown}
+\stopsetups
 
 % Indent start of paragraphs
 \setupindenting[\v!medium,\v!yes]
@@ -136,6 +158,7 @@
             \c!style=\ssbfd,
             \c!before={\blank[2*\v!big,\v!force]},
             \c!after={\blank[4*\v!big]\placeinitial},
+            \c!header=\v!high,
           ]
 
 \setuphead[\v!section,\v!subject]
