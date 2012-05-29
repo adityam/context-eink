@@ -18,7 +18,7 @@
             \c!alternative=kindle,
             mainfont={Linux Libertine O},
             sansfont={Dejavu Sans},
-            monofont={Dejavu Sans Mono},
+            monofont={Inconsolata},
             \c!size=10pt,
           ]
 
@@ -40,6 +40,26 @@
                    \c!backgroundcolor=black,
                  ]
 
+
+% Each blog is a new part
+\setuphead[\v!part]
+          [
+            \c!placehead=\v!yes,
+            \c!alternative=\v!command,
+            \c!number=\v!no,
+            \c!command=\rssfeed_part,
+            \c!header=\v!high,
+            \c!footer=\v!empty,
+          ]
+
+\def\rssfeed_part#1#2%
+    {
+    \framed[\c!frame=\v!off, \c!align=\v!middle, \c!width=\v!broad, \c!foregroundstyle=\ssbfb]
+      {#2
+       \blank[2*big]
+       \structureuservariable{description}
+        \blank[4*big]
+        \structureuservariable{link}}}
 
 % Each post is a new chapter
 \setuphead[\v!chapter,\v!title]
@@ -75,26 +95,6 @@
             \c!after=,
             \c!number=\v!no,
           ]
-
-% Setup for feed titlepage
-\setvariables
-  [rssfeed]
-  [
-    title=,
-    description=,
-    link=,
-    set={\setups{rssfeed:titlepage}},
-  ]
-
-\startsetups rssfeed:titlepage
-  \startinterlude
-      \getvariable{rssfeed}{title}
-      \blank[2*big]
-      \getvariable{rssfeed}{description}
-      \vfill
-      {\getvariable{rssfeed}{link}}
-  \stopinterlude
-\stopsetups
 
 % Arxiv sometimes uses an explicit \emph command:
 \definehighlight[emph][style=\em]
@@ -136,9 +136,10 @@
 \stopmessages
 
 % Using asciimode is safer, but directly setting asciimode from
-% a module does not work. 
+% a module does not work. But if we set asciimode, then math typsetting 
+% does not work as most sites use $..$ for math. 
 \appendtoks
-  \asciimode
+  %\asciimode
 \to\everystarttext
 
 \protect

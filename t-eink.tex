@@ -57,7 +57,7 @@
     \c!height=\v!middle,
     \c!bottomspace=0.5\lineheight,
     \c!bottomdistance=\zeropoint,
-    \c!bottom=\zeropoint,
+    \c!bottom=0.8\lineheight,
     \c!backspace=5mm,
     \c!cutspace=5mm,
     \c!leftmargin=1mm,
@@ -80,7 +80,7 @@
 \setupfootertexts[\setups{page:percentage}][\setups{next:chapter}]
 
 \startsetups page:percentage
-  \currentpage/\lastpage
+  \rawcountervalue[userpage]/\lastcountervalue[userpage]
 \stopsetups
 
 \startsetups current:chapter
