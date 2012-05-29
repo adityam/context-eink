@@ -35,8 +35,17 @@
     {\edef\p_eink_fontsize{\einkdeviceparameter\c!size}}
     {\writestatus{t-eink}{settings > override > size: \p_eink_fontsize}}
 
-% Define and set paper size based on the information stored
-% in `t-eink-devices`.
+% Set document fonts. We deligate this task to the `simplefonts` module.
+\usemodule  [simplefonts][\c!size=\p_eink_fontsize]
+
+\setmainfont[\currentmoduleparameter{mainfont}][\c!expansion=quality,\c!protrusion=quality]
+\setsansfont[\currentmoduleparameter{sansfont}][\c!expansion=quality,\c!protrusion=quality]
+\setmonofont[\currentmoduleparameter{monofont}]
+\setmathfont[\currentmoduleparameter{mathfont}]
+
+\setupalign[\v!hz, \v!hanging]
+
+% Kindle uses the 15pt space in the bottom 
 \definepapersize
   [eink]
   [
@@ -139,16 +148,6 @@
 \definecolor[interactioncolor][s=0.25]
 \setupinteraction[\c!state=\v!start, \c!style=bolditalic]
 \placebookmarks[\v!chapter,\v!title][\c!force=\v!yes]
-
-% Set document fonts. We deligate this task to the `simplefonts` module.
-\usemodule  [simplefonts][\c!size=\p_eink_fontsize]
-
-\setmainfont[\currentmoduleparameter{mainfont}][\c!expansion=quality,\c!protrusion=quality]
-\setsansfont[\currentmoduleparameter{sansfont}][\c!expansion=quality,\c!protrusion=quality]
-\setmonofont[\currentmoduleparameter{monofont}]
-\setmathfont[\currentmoduleparameter{mathfont}]
-
-\setupalign[\v!hz, \v!hanging]
 
 % A easy to read style for chapter headings. 
 
