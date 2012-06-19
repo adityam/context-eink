@@ -45,12 +45,22 @@
 
 \setupalign[\v!hz, \v!hanging]
 
-% Kindle uses the 15pt space in the bottom 
+% Kindle automatically adds some margin on the top and bottom. So, we shorten
+% the paper by that amount.
+\doifelse{\currentmoduleparameter\c!alternative}{kindle}
+    {\definemeasure[correction][\lineheight]%
+     \definemeasure[hmargin][0.5\lineheight]
+     \definemeasure[vmargin][\zeropoint]}
+    {\definemeasure[correction][\zeropoint]
+     \definemeasure[hmargin][2\lineheight]
+     \definemeasure[vmargin][\lineheight]}
+    
+
 \definepapersize
   [eink]
   [
-    \c!height=\einkdeviceparameter\c!height,
-    \c!width=\einkdeviceparameter\c!width,
+    \c!height=\the\dimexpr\einkdeviceparameter\c!height-\measure{correction}*2\relax,
+    \c!width=\the\dimexpr\einkdeviceparameter\c!width-\measure{correction}*2\relax,
   ]
 
 \setuppapersize[eink]
@@ -61,14 +71,14 @@
 \setuplayout
   [
     \c!location=\v!middle,
-    \c!topspace=0.5\lineheight,
+    \c!topspace=\measure{vmargin},
     \c!width=\v!middle,
-    \c!height=\v!middle,
-    \c!bottomspace=0.5\lineheight,
+    \c!height=\v!fit,
+    \c!bottomspace=\measure{vmargin},
     \c!bottomdistance=\zeropoint,
-    \c!bottom=0.8\lineheight,
-    \c!backspace=5mm,
-    \c!cutspace=5mm,
+    \c!bottom=\zeropoint,
+    \c!backspace=\measure{hmargin},
+    \c!cutspace=\measure{hmargin},
     \c!leftmargin=1mm,
     \c!rightmargin=1mm,
     \c!header=\lineheight,
@@ -93,11 +103,11 @@
 \stopsetups
 
 \startsetups current:chapter
-  \limitatetext {\getmarking[\v!chapter]}{0.5 \textwidth}{\unknown}
+  \limitatetext {\getmarking[\v!chapter]}{0.85 \textwidth}{\unknown}
 \stopsetups
 
 \startsetups next:chapter
-  \limitatetext {\getmarking[\v!chapter][last]}{0.5 \textwidth}{\unknown}
+  \limitatetext {\getmarking[\v!chapter][last]}{0.85 \textwidth}{\unknown}
 \stopsetups
 
 % Indent start of paragraphs
@@ -222,6 +232,8 @@
     \c!maxheight=0.8\textheight,
     \c!factor=\v!max,
   ]
+
+\setupcaption[style={\tfxx\setupinterlinespace}]
 
 \protect
 \stopmodule
