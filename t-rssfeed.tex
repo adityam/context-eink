@@ -22,13 +22,14 @@
             \c!size=10pt,
           ]
 
+\setupheadertexts[part][\setups{current:chapter}]
+
 % Mostly, the typing environment is for code.
 % Kindle has a small linewidth, so we use a smaller
 % font for typing
 \setuptyping
   [
     \c!style={\switchtobodyfont[8pt]},
-    \c!color=white,
     \c!before={\starttyping_background},
     \c!after={\stoptyping_background},
     \c!lines=\v!yes,
@@ -37,7 +38,7 @@
 \definebackground[typing_background]
                  [
                    \c!background=\c!color,
-                   \c!backgroundcolor=black,
+                   \c!backgroundcolor=gray,
                  ]
 
 
@@ -45,11 +46,10 @@
 \setuphead[\v!part]
           [
             \c!placehead=\v!yes,
-            \c!alternative=\v!command,
+            \c!incrementnumber=\v!list,
             \c!number=\v!no,
-            \c!command=\rssfeed_part,
-            \c!header=\v!high,
-            \c!footer=\v!empty,
+            \c!alternative=\v!middle,
+            \c!before={\blank[force,3*big]},
           ]
 
 \def\rssfeed_part#1#2%
@@ -96,44 +96,37 @@
             \c!number=\v!no,
           ]
 
-% Arxiv sometimes uses an explicit \emph command:
-\definehighlight[emph][style=\em]
 
 % Bugfix for figures
 \let\normalexternalfigure\externalfigure
-\unexpanded\def\externalfigure
-    {\dodoubleargument\rssfeed_externalfigure}
 
-\def\rssfeed_externalfigure[#1][#2]%
-    % Sometimes the included image is a gif file
-    % which completely messes things up. So, we check the format
-    % of the image before trying to include it.
-    {\ctxlua{thirddata.rssfeed.image_format (\!!bs \locfilename{#1}\!!es)}%
-    \doifnot{\rssfeed_format}{GIF}
-        {\normalexternalfigure[#1][\c!scale=2000, \c!method=auto, #2]}}
-
+% Weburls can be long. Create a md5 hash of the file, WITHOUT an extension.
 \startluacode
-  thirddata = thirddata or {}
-  thirddata.rssfeed = {}
-
-  local rssfeed = thirddata.rssfeed
-  local sformat,osexec, ioload, setvalue = string.format, os.execute, io.loaddata, context.setvalue
-
-  function rssfeed.image_format(image) 
-    osexec(sformat("identify -format \"%%m\" %s > rssfeed_format", image))
-    local format=ioload('rssfeed_format'):gsub("\n","")
-    setvalue("rssfeed_format", format)
+  local cleaners = resolvers.schemes.cleaners
+  function cleaners.md5auto(specification)
+      return md5.hex(specification.original)
   end
 \stopluacode
+
+\enabledirectives[schemes.cleanmethod=md5auto]
+
+% Web urls can have \type{%} signs in them.
+\unexpanded\def\externalfigure
+    {\startasciimode
+     \dodoubleargument\rssfeed_externalfigure}
+
+\def\rssfeed_externalfigure[#1][#2]%
+    {\stopasciimode
+        \normalexternalfigure[#1][\c!scale=2000, \c!method=auto, #2]}
 
 % Feedburner includes a GIF image at the end of feeds. When using pandoc to
 % convert HTML to ConTeXt, that gets translated to \placefigure[...]{...}{...} 
 % and we get a box with "undefined" in it. To fix that, we set:
 
-\setupfloats[\c!width=\zeropoint, \c!height=\zeropoint]
-\startmessages  english  library: floatblocks
-12: 
-\stopmessages
+% \setupfloats[\c!width=\zeropoint, \c!height=\zeropoint]
+% \startmessages  english  library: floatblocks
+% 12: 
+% \stopmessages
 
 % Using asciimode is safer, but directly setting asciimode from
 % a module does not work. But if we set asciimode, then math typsetting 
@@ -141,6 +134,11 @@
 \appendtoks
   %\asciimode
 \to\everystarttext
+
+% Fonts
+\definehighlight[emph][style=\em]
+\definehighlight[strong][style=bold]
+
 
 \protect
 \stopmodule
